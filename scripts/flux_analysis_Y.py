@@ -1,0 +1,117 @@
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+import json
+import re
+
+def extract_psi0(filename):
+    match = re.search(r'psi0=([0-9.]+)', filename)
+    return float(match.group(1)) if match else float("nan")
+
+def plot_flux_profiles(input_paths, output_dir, tolerance, r_in, theta0, kappaff, kappaK, opt_regime):
+    color_cycle = plt.cm.tab10.colors
+    fig, ax = plt.subplots(figsize=(10, 6), constrained_layout=True)
+    font_size = 16
+    for idx, input_path in enumerate(input_paths):
+        data = np.load(input_path)
+        b = data["b"]
+        alpha = data["alpha"]
+        F = data["F"]
+
+        mask_alpha_0 = np.abs(alpha - 0.0) < tolerance
+        mask_alpha_pi = np.abs(alpha - np.pi) < tolerance
+
+        b_0 = b[mask_alpha_0]
+        F_0 = F[mask_alpha_0] * 1e5
+
+        b_pi = -b[mask_alpha_pi]  
+        F_pi = F[mask_alpha_pi] * 1e5
+
+        psi0 = extract_psi0(os.path.basename(input_path))
+        color = color_cycle[idx % len(color_cycle)]
+
+        sorted_idx_0 = np.argsort(b_0)
+        sorted_idx_pi = np.argsort(b_pi)
+        ax.plot(b_0[sorted_idx_0], F_0[sorted_idx_0], label=fr"$\psi_0 = {psi0:.0f}^\circ$", color=color, linestyle='-')
+
+        ax.plot(b_pi[sorted_idx_pi], F_pi[sorted_idx_pi], color=color, linestyle='-')
+
+        print(f"[{os.path.basename(input_path)}] α ≈ π/2: {np.sum(mask_alpha_0)}, α ≈ 3π/2: {np.sum(mask_alpha_pi)}")
+        
+    
+    ax.set_xlabel(r"$y'/M$",fontsize=font_size)
+    ax.set_ylabel(r"Flux × $10^{-5}$",fontsize=font_size)
+    #plt.title("Flux Profile for Z axis")
+    ax.set_xlim(-15, 15)
+    ax.set_ylim(bottom=0) 
+    # inset subfig
+    from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+    inset_ax = inset_axes(ax, width="20%", height="60%", loc='upper center', borderpad=2)
+    for idx, input_path in enumerate(input_paths):
+        if idx == 0:
+            continue  
+        data = np.load(input_path)
+        b = data["b"]
+        alpha = data["alpha"]
+        F = data["F"]
+
+        mask_alpha_0 = np.abs(alpha - 0.0) < tolerance
+       # mask_alpha_pi = np.abs(alpha - (1 * np.pi / 2)) < tolerance
+
+        b_0 = b[mask_alpha_0]
+        F_0 = F[mask_alpha_0] * 1e5
+
+      #  b_pi = -b[mask_alpha_pi]
+      #  F_pi = F[mask_alpha_pi] * 1e5
+
+        psi0 = extract_psi0(os.path.basename(input_path))
+        color = color_cycle[idx % len(color_cycle)]
+
+        sorted_idx_0 = np.argsort(b_0)
+     #   sorted_idx_pi = np.argsort(b_pi)
+
+        inset_ax.plot(b_0[sorted_idx_0], F_0[sorted_idx_0], color=color, linestyle='-')
+      #  inset_ax.plot(b_pi[sorted_idx_pi], F_pi[sorted_idx_pi], color=color, linestyle='-')
+
+    inset_ax.set_xlim(5.15, 5.8)
+    inset_ax.set_ylim(0, 14)
+    inset_ax.tick_params(axis='both', which='major', labelsize=10)
+    #inset_ax.set_title("Zoom-in", fontsize=10)
+# end-inset subfig
+    ax.tick_params(axis='both', which='major', labelsize=font_size)
+    ax.legend()
+   # plt.grid(True) 
+    ax.ticklabel_format(style='plain', axis='y')  
+    ax.legend(loc='upper right', fontsize=font_size-2)
+    os.makedirs(output_dir, exist_ok=True)
+    output_path = os.path.join(output_dir, f"combined_flux_Y_axis_optical_{opt_regime}_rin={r_in:.1f}_theta0={theta0:.1f}_kappaff={kappaff:.3f}_kappaK={kappaK:.3f}.png")
+    plt.savefig(output_path, dpi=300)
+    plt.close()
+
+    print(f"Plot saved to: {output_path}")
+
+if __name__ == "__main__":
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(base_dir, "..", "config", "config.json")  
+    with open(config_path, 'r', encoding='utf-8') as f:
+        config = json.load(f)
+    r_in = 6.0
+    theta0 = 70.0
+    kappaff = 0.1
+    kappaK = 0.9
+    opt_regime = "thin" #thin, thick or intermediate 
+    dalpha = config["dalpha"]
+    tolerance = dalpha / 2
+
+    #List all documents that need to be compared and analyzed.
+    output_dir = os.path.join(base_dir, "..", "output")
+    filename1 = f"flux_rmax=50.0_optical_{opt_regime}_psi0=15.0_rin={r_in:.1f}_theta0={theta0:.1f}_kappaff={kappaff:.3f}_kappaK={kappaK:.3f}.npz"
+    file_path1 = os.path.join(output_dir, filename1)    
+    filename2 = f"flux_rmax=50.0_optical_{opt_regime}_psi0=30.0_rin={r_in:.1f}_theta0={theta0:.1f}_kappaff={kappaff:.3f}_kappaK={kappaK:.3f}.npz"
+    file_path2 = os.path.join(output_dir, filename2)      
+    input_npzs = [
+       file_path1,
+       file_path2
+    ]
+
+    plot_flux_profiles(input_npzs, output_dir, tolerance=tolerance, r_in=r_in, theta0=theta0,kappaff=kappaff, kappaK=kappaK, opt_regime=opt_regime)
