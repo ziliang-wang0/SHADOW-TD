@@ -3,7 +3,7 @@
 is a Python package for general-relativistic ray-tracing imaging of black hole shadows with geometrically thick accretion disks.
 It is lightweight and designed as an easy-to-use imaging tool that runs on standard personal computers, producing observer-plane images and numerical data for analyzing shadow structure and radiation flux distributions.
 ## Example Shadow Image
-![Black Hole Shadow](https://private-user-images.githubusercontent.com/217470441/517449761-9d4cbb09-d211-4ba1-94c7-8e8f3935a3a1.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjM3MzgzOTUsIm5iZiI6MTc2MzczODA5NSwicGF0aCI6Ii8yMTc0NzA0NDEvNTE3NDQ5NzYxLTlkNGNiYjA5LWQyMTEtNGJhMS05NGM3LThlOGYzOTM1YTNhMS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUxMTIxJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MTEyMVQxNTE0NTVaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iN2Q2Nzk3NDk4Zjc0NjMxZmI5NmEzMTZhNzE1YWJkNTQxNDJjYTUxNGRiN2I3NjU3ODZlOGFiNWQxODYwNzk5JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.9AxK3inKHuVsqjOVci8wEfkAdar_Qye5aTni50UxqLo)
+![Black Hole Shadow](https://github-production-user-asset-6210df.s3.amazonaws.com/217470441/517688935-1804fe5e-6b0f-40c0-9a4d-a1ba928959b4.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20251122%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20251122T080935Z&X-Amz-Expires=300&X-Amz-Signature=e57b28949fdbf0740d3c539fb1178cbd6f6b53e5dc039449e72404c3a788cc86&X-Amz-SignedHeaders=host)
 ## Features
 1. Schwarzschild spacetime as the default background metric (to use a different spherically symmetric metric, modify the default metric in the `step1` and `step2` scripts within the `scripts/` folder).
 2. Thick-disk illumination based on a generalized Shakura–Sunyaev model.
@@ -44,3 +44,4 @@ This project is released under the MIT License. See the `LICENSE` file for detai
 ## Author
 Ziliang Wang,
 Email: ziliang.wang@just.edu.cn
+
