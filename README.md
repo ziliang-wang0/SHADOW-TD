@@ -3,7 +3,7 @@
 is a Python package for general-relativistic ray-tracing imaging of black hole shadows with geometrically thick accretion disks.
 It is lightweight and designed as an easy-to-use imaging tool that runs on standard personal computers, producing observer-plane images and numerical data for analyzing shadow structure and radiation flux distributions.
 ## Example Shadow Image
-![Black Hole Shadow](https://github-production-user-asset-6210df.s3.amazonaws.com/217470441/517688935-1804fe5e-6b0f-40c0-9a4d-a1ba928959b4.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20251122%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20251122T080935Z&X-Amz-Expires=300&X-Amz-Signature=e57b28949fdbf0740d3c539fb1178cbd6f6b53e5dc039449e72404c3a788cc86&X-Amz-SignedHeaders=host)
+![Black Hole Shadow](https://i1.rgstatic.net/publication/398667381_Example_SHADOW-TD/links/693ebd98a1fd01798907bf94/largepreview.png)
 ## Features
 1. Schwarzschild spacetime as the default background metric (to use a different spherically symmetric metric, modify the default metric in the `step1` and `step2` scripts within the `scripts/` folder).
 2. Thick-disk illumination based on a generalized Shakura–Sunyaev model.
@@ -44,4 +44,5 @@ This project is released under the MIT License. See the `LICENSE` file for detai
 ## Author
 Ziliang Wang,
 Email: ziliang.wang@just.edu.cn
+
 
