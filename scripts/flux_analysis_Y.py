@@ -48,8 +48,8 @@ def plot_flux_profiles(input_paths, output_dir, tolerance, r_in, theta0, kappaff
     from mpl_toolkits.axes_grid1.inset_locator import inset_axes
     inset_ax = inset_axes(ax, width="20%", height="60%", loc='upper center', borderpad=2)
     for idx, input_path in enumerate(input_paths):
-        if idx == 0:
-            continue  
+        #if idx == 0:
+        #    continue  
         data = np.load(input_path)
         b = data["b"]
         alpha = data["alpha"]
@@ -107,11 +107,10 @@ if __name__ == "__main__":
     output_dir = os.path.join(base_dir, "..", "output")
     filename1 = f"flux_rmax=50.0_optical_{opt_regime}_psi0=15.0_rin={r_in:.1f}_theta0={theta0:.1f}_kappaff={kappaff:.3f}_kappaK={kappaK:.3f}.npz"
     file_path1 = os.path.join(output_dir, filename1)    
-    filename2 = f"flux_rmax=50.0_optical_{opt_regime}_psi0=30.0_rin={r_in:.1f}_theta0={theta0:.1f}_kappaff={kappaff:.3f}_kappaK={kappaK:.3f}.npz"
-    file_path2 = os.path.join(output_dir, filename2)      
+   # filename2 = f"flux_rmax=50.0_optical_{opt_regime}_psi0=30.0_rin={r_in:.1f}_theta0={theta0:.1f}_kappaff={kappaff:.3f}_kappaK={kappaK:.3f}.npz"
+    #file_path2 = os.path.join(output_dir, filename2)      
     input_npzs = [
-       file_path1,
-       file_path2
+       file_path1#,file_path2
     ]
 
     plot_flux_profiles(input_npzs, output_dir, tolerance=tolerance, r_in=r_in, theta0=theta0,kappaff=kappaff, kappaK=kappaK, opt_regime=opt_regime)
